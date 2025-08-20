@@ -31,10 +31,15 @@ app.use(userRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+    app.listen(4000, () => console.log("Server started"));
+  })
+  .catch(err => console.error("MongoDB connection error:", err));
 
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This route does not exist" });
 });
 
-app.listen(4000, () => console.log("Server started"));
+app.listen(5000, () => console.log("Server started"));

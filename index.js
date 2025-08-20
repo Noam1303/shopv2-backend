@@ -8,7 +8,15 @@ const productRoutes = require("./routes/product.js");
 const orderRoutes = require("./routes/order.js");
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+    origin: "https://dazzling-cuchufli-675cf0.netlify.app", // ton frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // si tu envoies cookies ou headers d’auth
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 app.use(userRoutes);

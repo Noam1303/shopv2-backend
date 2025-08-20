@@ -10,36 +10,27 @@ const orderRoutes = require("./routes/order.js");
 const app = express();
 
 const corsOptions = {
-    origin: "https://dazzling-cuchufli-675cf0.netlify.app", // ton frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // si tu envoies cookies ou headers d’auth
+  origin: "https://dazzling-cuchufli-675cf0.netlify.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
 };
 
-app.use((req, res, next) => {
-  console.log(req.method, req.url);
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
 app.use(cors(corsOptions));
-
 app.use(express.json());
 
 app.use(userRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
 
+const PORT = 4000; // important pour code.run
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("MongoDB connected");
-    app.listen(4000, () => console.log("Server started"));
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
   })
   .catch(err => console.error("MongoDB connection error:", err));
 
 app.all("*", (req, res) => {
   res.status(404).json({ message: "This route does not exist" });
 });
-
-app.listen(5000, () => console.log("Server started"));

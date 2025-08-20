@@ -22,7 +22,7 @@ app.use(userRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
 
-const PORT = 4000; // important pour code.run
+const PORT = process.env.PORT || 4000;
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
